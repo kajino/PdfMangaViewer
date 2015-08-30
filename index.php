@@ -7,6 +7,7 @@
   <script type="text/javascript" src="jquery.min.js"></script>
 </head>
 <body>
+  <?php include_once("analyticstracking.php") ?>
   <input id='pdf' type='file' accept="application/pdf">
   <div id="pages">
     <canvas id="canvas-left"></canvas>
