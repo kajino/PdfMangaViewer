@@ -1,6 +1,8 @@
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="">
+  <title>PMV (PDF Manga Viewer)</title>
+  <meta name="description" content="WEBブラウザ上でPDFを漫画用見開き表示で閲覧できるサービス。">
+  <meta name="keywords" content="PDF漫画ビューア,PDF,漫画,ビューア">
   <link rel="stylesheet" type="text/css" href="style.css">
   <script type="text/javascript" src="pdf.js"></script>
   <script type="text/javascript" src="pdf.worker.js"></script>
