@@ -91,3 +91,11 @@ canvas {
   max-width: 48%;
   box-sizing: border-box;
 }
+
+#filename {
+  position: absolute;
+  font-size: 12px;
+  color: black;
+  z-index: 2;
+  background: rgba(255,255,255, 0.5);
+}
