@@ -29,14 +29,33 @@ $(function(){
     pdfLoad(files);
   });
 
-  function pdfLoad(files) {
+  var files;
+  function pdfLoad(_files) {
     $("nav").css("zIndex",0);
+    if(_files.length > 0){
+      files = new Array( _files.length);
+      for(var i = 0; i < _files.length; i++)
+        files[_files.length - (i+1)] = _files[i];
+      pdfAttach(0, true);
+    }
+  }
 
-    if (file = files[0]) {
+  function pdfAttach(bookNum, isFirstPage) {
+    if(files == null && files.length == bookNum) return;
+    if (file = files[bookNum]) {
+      $("#filename").text(file.name);
       fileReader = new FileReader();
       fileReader.onload = function(ev) {
         PDFJS.getDocument(fileReader.result).then(function (pdf) {
-          var pageNum = 1;
+          var pageNum;
+          if(isFirstPage) {
+            pageNum = 1;
+          } else {
+            if(pdf.numPages % 2 === 0)
+              pageNum = pdf.numPages - 1;
+            else
+              pageNum = pdf.numPages;
+          }
           function pageLoad(page, canvasId) {
             var scale = 1.5;
             var viewport = page.getViewport(scale);
@@ -63,13 +82,21 @@ $(function(){
           }
 
           $('#canvas-right').off('click').on('click', function() {
-            if (pageNum <= 1) return;
+            if (pageNum <= 1) {
+              if(bookNum > 0)
+                pdfAttach(bookNum-1, false);
+              return;
+            }
             pageNum -= 2;
             render(pageNum);
           });
 
           $('#canvas-left').off('click').on('click', function() {
-            if (pageNum+2 > pdf.numPages) return;
+            if (pageNum+2 > pdf.numPages){
+              if(bookNum < files.length-1)
+                pdfAttach(bookNum+1, true);
+              return;
+            } 
             pageNum += 2;
             render(pageNum);
           });
@@ -83,6 +110,9 @@ $(function(){
     }
   }
 });
+
+
+
 function enterFullscreen(){
   document.body.onclick = function() {
     if (this.webkitRequestFullScreen) {
